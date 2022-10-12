@@ -1,0 +1,31 @@
+---
+title: "Week 3"
+output: html_document
+date: "2022-10-12"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(WDI)
+new_wdi_cache <- WDIcache()
+```
+
+```{r}
+gdp_capita <- WDI(country="all",
+indicator = "NY.GDP.PCAP.KD",
+start = 2000,
+end = 2020,
+cache = new_wdi_cache)
+View(gdp_capita)
+```
+
+
+
+
