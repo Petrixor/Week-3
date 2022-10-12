@@ -26,6 +26,94 @@ cache = new_wdi_cache)
 View(gdp_capita)
 ```
 
+```{r}
+eu_countries <- subset(gdp_capita,
+country=="United Kingdom" |
+country=="France" |
+country=="Spain" |
+country =="Italy" |
+country =="Netherlands")
+View(eu_countries)
 
+```
 
+```{r}
+eu_countries <- WDI(country=c("GB","FR","ES","IT","NL"),
+indicator = "NY.GDP.PCAP.KD",
+start = 2000, end = 2020,
+cache = new_wdi_cache)
+View(eu_countries)
+
+```
+
+```{r}
+country_data <- WDI(country=c("GB","FR","ES","IT","NL", "CN","AE","IN","JO","US"),
+indicator = c("NY.GDP.PCAP.KD","NY.GDP.PCAP.KD.ZG","SP.POP.TOTL","SP.DYN.LE00.IN"),
+start = 2000, end = 2020,
+extra=TRUE,
+cache = new_wdi_cache)
+View(country_data)
+
+```
+
+```{r}
+ggplot(country_data) +
+geom_point(aes(year, NY.GDP.PCAP.KD))
+```
+
+```{r}
+ggplot(country_data, aes(year, NY.GDP.PCAP.KD, colour = country)) +
+geom_point()
+```
+
+```{r}
+ggplot(country_data,aes(year,NY.GDP.PCAP.KD,colour=country,size=NY.GDP.PCAP.KD.ZG)) + geom_point()
+```
+
+```{r}
+ggplot(country_data, aes(year,
+NY.GDP.PCAP.KD,colour = country,
+size=NY.GDP.PCAP.KD.ZG,
+shape = region)) +
+geom_point() + theme(legend.text = element_text(size = 8),legend.key.size = unit(.5, 'cm'))
+```
+
+```{r}
+ggplot(country_data, aes(year, NY.GDP.PCAP.KD.ZG) ) +
+geom_point(colour = "cyan", size = 5, shape = 10)
+```
+
+```{r}
+ggplot(country_data, aes(year, NY.GDP.PCAP.KD.ZG, colour = country)) +
+geom_point() +
+labs(x="Year", y="GDP Per Capita Growth (annual %)", colour="Country" )
+
+```
+
+```{r}
+library(scales)
+ggplot(country_data, aes(year, NY.GDP.PCAP.KD.ZG, colour = country)) +
+geom_point() +
+labs(x="Year", y="GDP Per Capita Growth (annual %)", colour="Country" )+scale_x_continuous(breaks = pretty_breaks())+
+xlim(2000,2016)+
+ylim(-10,10)
+```
+
+```{r}
+ggplot(country_data, aes(year, NY.GDP.PCAP.KD.ZG, colour = country)) +
+geom_line() +
+labs(x="Year", y="GDP Per Capita Growth (annual %)", colour="Country" )
+```
+
+```{r}
+compare <- filter(country_data,income == c('High income','Upper middle income'))
+```
+
+```{r}
+library(ggrepel)
+```
+
+```{r}
+ggplot(compare, aes(year, SP.DYN.LE00.IN, color=country,linetype=income))+geom_line()+labs(x='Year',y='Life Expectancy at birth, total(years)',title = 'Comparisons of life expectancy Between different income levels')+theme(legend.title = element_text(size =8))
+```
 
