@@ -106,7 +106,7 @@ labs(x="Year", y="GDP Per Capita Growth (annual %)", colour="Country" )
 ```
 
 ```{r}
-compare <- filter(country_data,income == c('High income','Upper middle income'))
+compare <- filter(Life,income == c('High income','Upper middle income','Low income'))
 ```
 
 ```{r}
@@ -114,6 +114,15 @@ library(ggrepel)
 ```
 
 ```{r}
-ggplot(compare, aes(year, SP.DYN.LE00.IN, color=country,linetype=income))+geom_line()+labs(x='Year',y='Life Expectancy at birth, total(years)',title = 'Comparisons of life expectancy Between different income levels')+theme(legend.title = element_text(size =8))
+ggplot(compare, aes(year, SP.DYN.LE00.IN, color=country,linetype=income))+geom_line()+labs(x='Year',y='Life Expectancy at birth, total(years)',title = 'Comparisons of life expectancy Between different income levels')+theme(legend.title = element_text(size =8),legend.text = element_text(size=2),legend.key.size = unit(.5, 'cm'))
 ```
 
+```{r}
+Life <- WDI(country="all",
+indicator = "SP.DYN.LE00.IN",
+start = 2000,
+end = 2020,
+extra=TRUE,
+cache = new_wdi_cache)
+View(Life)
+```
